@@ -2,7 +2,7 @@
 include "./includes/header.php";
 include "../server/connection.php";
 
-// Check if product_id is provided jhjhgcmg
+// Check if product_id is provided
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
 
