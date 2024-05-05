@@ -12,7 +12,8 @@
     <div class="collapse navbar-collapse w-auto max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="index.php">
+                <a class="nav-link text-white <?=$page_title == 'index' ? 'active bg-gradient-primary' : '';?> "
+                    href="index.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -20,7 +21,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="products.php">
+                <a class="nav-link text-white <?=$page_title == 'Products' ? 'active bg-gradient-primary' : '';?>"
+                    href="products.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">local_offer</i>
                     </div>

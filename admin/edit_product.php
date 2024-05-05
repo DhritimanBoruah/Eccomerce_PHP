@@ -2,6 +2,9 @@
 include "./includes/header.php";
 include "../server/connection.php";
 
+// Initialize $products variable
+$products = [];
+
 // Check if product_id is provided
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
@@ -10,14 +13,26 @@ if (isset($_GET['product_id'])) {
     $stmt = $conn->prepare("SELECT * FROM products WHERE product_id=?");
     $stmt->bind_param('i', $product_id);
     $stmt->execute();
-    $products = $stmt->get_result();
+    $result = $stmt->get_result();
 
-    // Redirect if product not found
-    if ($products->num_rows === 0) {
+    // Check if the query returned any rows
+    if ($result->num_rows > 0) {
+        // Fetch the product details
+        $products = $result->fetch_assoc();
+    } else {
+        // Redirect if product not found
         header('Location: product.php');
         exit;
     }
+
+    $stmt3 = $conn->prepare("SELECT * FROM `categories` WHERE `cat_status` = '1'");
+    /* $stmt3->bind_param('i', $product_id); */
+    $stmt3->execute();
+    $categories = $stmt3->get_result();
+
 } elseif (isset($_POST['update_product'])) {
+    $product_id = $conn->real_escape_string($_POST['product_id']);
+
     $product_name = $conn->real_escape_string($_POST['product_name']);
     $product_description = $conn->real_escape_string($_POST['product_description']);
     $product_price = $conn->real_escape_string($_POST['product_price']);
@@ -34,17 +49,18 @@ if (isset($_GET['product_id'])) {
         // Show success message using JavaScript alert
         echo "<script>alert('Product updated successfully!');</script>";
         // Redirect to product.php after updating
-        header('location:product.php');
+        echo "<script>window.location.href = './products.php';</script>";
+        exit;
     } else {
         // Show failure message using JavaScript alert
         echo "<script>alert('Failed to update product. Please try again.');</script>";
-        header('location:edit_product.php');
     }
 } else {
     header('Location: product.php');
     exit;
 }
 ?>
+
 
 <!-- Bootstrap CSS -->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -61,60 +77,125 @@ if (isset($_GET['product_id'])) {
     <div class="row mt-3">
         <div class="col-md-6">
             <form method="post" action="edit_product.php">
-                <?php foreach ($products as $product) {?>
+                <input type="hidden" name="product_id"
+                    value="<?=isset($products['product_id']) ? $products['product_id'] : ''?>">
+
                 <div class="form-group mt-2">
                     <label for="product_name">Product Name</label>
                     <input type="text" class="form-control" placeholder="" id="product_name" name="product_name"
-                        value="<?=$product['product_name']?>" required>
+                        value="<?=isset($products['product_name']) ? $products['product_name'] : ''?>" required>
                 </div>
                 <div class="form-group">
                     <label for="product_description">Product Description</label>
                     <input type="text" class="form-control" id="product_description" name="product_description"
-                        value="<?=$product['product_description'];?>" required>
+                        value="<?=isset($products['product_description']) ? $products['product_description'] : ''?>"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="product_price">Product Price</label>
                     <input type="number" class="form-control" id="product_price" name="product_price"
-                        value="<?=$product['product_price'];?>" required>
+                        value="<?=isset($products['product_price']) ? $products['product_price'] : ''?>" required>
                 </div>
                 <div class="form-group">
                     <label for="product_special_offer">Product Special Offer (%)</label>
                     <input type="number" class="form-control" id="product_special_offer" name="product_special_offer"
-                        value="<?=$product['product_special_offer'];?>" required>
+                        value="<?=isset($products['product_special_offer']) ? $products['product_special_offer'] : ''?>"
+                        required>
                 </div>
+                <!-- <div class="form-group">
+                    <label for="product_category">Product Category</label>
+                    <select class="form-control" id="product_category" name="product_category" required>
+                        <option value="">Select Category</option>
+                        <option value="shoes"
+                            <?=isset($products['product_category']) && $products['product_category'] === 'shoes' ? 'selected' : ''?>>
+                            Shoes
+                        </option>
+                        <option value="coat"
+                            <?=isset($products['product_category']) && $products['product_category'] === 'coat' ? 'selected' : ''?>>
+                            Coats
+                        </option>
+                        <option value="watch"
+                            <?=isset($products['product_category']) && $products['product_category'] === 'watch' ? 'selected' : ''?>>
+                            Watches
+                        </option>
+                    </select>
+                </div> -->
                 <div class="form-group">
                     <label for="product_category">Product Category</label>
                     <select class="form-control" id="product_category" name="product_category" required>
                         <option value="">Select Category</option>
-                        <option value="shoes">Shoes</option>
-                        <option value="coat">Coats</option>
-                        <option value="watch">Watches</option>
-                        <!-- Add more options as needed -->
+                        <?php foreach ($categories as $row) {?>
+                        <option value="<?=$row['cat_id']?>"><?=ucwords($row['cat_name'])?></option>
+                        <?php }?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product_category">Product Category</label>
+                    <select class="form-control" id="product_sub_category" name="product_category" required>
+                        <option value="">Select Category</option>
+
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="product_color">Product Color</label>
                     <select class="form-control" id="product_color" name="product_color" required>
                         <option value="">Select Color</option>
-                        <option value="red">Red</option>
-                        <option value="blue">Blue</option>
-                        <option value="yellow">Yellow</option>
+                        <option value="red"
+                            <?=isset($products['product_color']) && $products['product_color'] === 'red' ? 'selected' : ''?>>
+                            Red</option>
+                        <option value="blue"
+                            <?=isset($products['product_color']) && $products['product_color'] === 'blue' ? 'selected' : ''?>>
+                            Blue</option>
+                        <option value="yellow"
+                            <?=isset($products['product_color']) && $products['product_color'] === 'yellow' ? 'selected' : ''?>>
+                            Yellow
+                        </option>
                         <!-- Add more options as needed -->
                     </select>
                 </div>
-                <?php }?>
-                <button type="submit" class="btn btn-primary" name="update_product">Update</button>
-                <script>
-                function confirmUpdate() {
-                    if (confirm("Are you sure you want to update this product?")) {
-                        // If user confirms, submit the form
-                        document.getElementById('updateForm').submit();
-                    }
-                }
-                </script>
+                <button type="submit" class="btn btn-primary" name="update_product"
+                    onclick="return confirm('Are you sure you want to update this product?')">Update</button>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+$("#product_category").on('change', function() {
+    var value = this.value;
+    console.log(value)
+
+    $.ajax({
+        url: 'ajax/getSCats.php',
+        type: 'post',
+        data: {
+            value: value
+        },
+        success: function(data) {
+            console.log(data)
+
+            var responseData = JSON.parse(data);
+
+            // Select the dropdown element
+            var selectDropdown = $('#product_sub_category');
+
+            // Clear existing options
+            selectDropdown.empty();
+
+
+            // Loop through the data and create options
+            $.each(responseData.details, function(index, item) {
+                // Create an option element
+                var option = $('<option></option>').attr('value', item.sb_cat_id).text(
+                    item
+                    .sb_cat_name);
+
+                // Append the option to the select dropdown
+                selectDropdown.append(option);
+            });
+        }
+    })
+})
+</script>
 
 <?php include "./includes/footer.php";?>

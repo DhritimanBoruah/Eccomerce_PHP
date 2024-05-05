@@ -1,3 +1,4 @@
+<?=$page_title = null;?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +10,9 @@
     <title>
         Ecommerce
     </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
+
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -24,10 +28,8 @@
 
     <!-- Bootstrap CSS -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-    <?php include 'sidebar.php';?>
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <?php
-include 'navbar.php';?>
+    <?php //include 'sidebar.php';?>
