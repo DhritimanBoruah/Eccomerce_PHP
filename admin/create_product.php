@@ -47,7 +47,6 @@ include 'includes/sidebar.php';
     <div class="container">
         <div class="row mt-3 justify-content-center">
             <div class="col-md-8">
-                <h4>Orders</h4>
                 <div>
                     <form method="post" action="add_product.php">
                         <div class="form-group">

@@ -5,9 +5,10 @@
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href="index.php" target="_blank">
-            <span class="ms-1 font-weight-bold text-white">Eccommerce</span>
+            <img src="../../assets/imgs/logoo.jpg" alt="Logo" style="height: 100px;width:70px;">
         </a>
     </div>
+
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse w-auto max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
