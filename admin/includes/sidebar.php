@@ -66,22 +66,33 @@
                     <span class="nav-link-text ms-1">Account</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link text-white" href="logout.php?logout=1" name="logout">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">exit_to_app</i>
                     </div>
                     <span class="nav-link-text ms-1">Logout</span>
                 </a>
-            </li>
+            </li> -->
 
         </ul>
     </div>
-    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+
+    <!-- <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
             <a class="btn bg-gradient-primary mt-4 w-100"
                 href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade
                 to pro</a>
+        </div>
+    </div> -->
+
+
+
+    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+        <div class="mx-3">
+            <a class="btn bg-gradient-primary mt-4 w-100" href="logout.php?logout=1" name="logout" type="button" style="font-weight: bold;
+        font-size: 16px;"><i class="material-icons opacity-10">exit_to_app</i>
+                <span class="nav-link-text ms-1">Logout</span></a>
         </div>
     </div>
 </aside>

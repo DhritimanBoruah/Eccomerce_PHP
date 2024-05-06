@@ -50,7 +50,7 @@ $orders = $stmt2->get_result();
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Dashboard</h2>
+                <h2>Orders</h2>
 
                 <?php if (isset($_GET['order_Failed'])) {?>
                 <p class="text-center" style="color:red;"><?=$_GET['deleted_failure'];?></p>
@@ -75,7 +75,6 @@ $orders = $stmt2->get_result();
     <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
-                <h4>Orders</h4>
                 <div class="table-responsive">
                     <table class="table table-striped text-center">
                         <thead>

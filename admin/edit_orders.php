@@ -2,7 +2,7 @@
 include "./includes/header.php";
 include "../server/connection.php";
 
-// Initialize $orders variable
+// Initialize $order variable
 $order = [];
 
 // Check if order_id is provided
@@ -42,20 +42,19 @@ if (isset($_POST['update_order'])) {
     $update_result = $stmt2->execute();
 
     if ($update_result) {
-        /* header('location:./order.php?order_updated=Order has been Updated!'); */
+        header('location:index.php?order_updated=Order has been Updated!');
         // Show success message using JavaScript alert
-        echo "<script>alert('Order updated successfully!');</script>";
+        /* echo "<script>alert('Order updated successfully!');</script>"; */
         // Redirect to orders.php after updating
-        echo "<script>window.location.href = './orders.php';</script>";
-        exit;
+        /* echo "<script>window.location.href = './orders.php';</script>";
+    exit; */
     } else {
-        header('location:./order.php?order_Failed=Error Occurred!');
+        header('location:index.php?order_Failed=Error Occured!');
         // Show failure message using JavaScript alert
-        echo "<script>alert('Failed to update order. Please try again.');</script>";
+        /* echo "<script>alert('Failed to update order. Please try again.');</script>"; */
     }
 }
 ?>
-
 
 <!-- Bootstrap CSS -->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -74,24 +73,17 @@ if (isset($_POST['update_order'])) {
         <div class="row mt-2 justify-content-center">
             <div class="col-md-6">
                 <form method="post" action="edit_orders.php">
-
                     <input type="hidden" name="order_id" value="<?=$order['order_id']?>">
-
-
                     <div class="form-group">
                         <label for="user_id">Order ID</label>
                         <input type="text" class="form-control" id="user_id" name="user_id"
-                            value="<?=$order['order_id']?>" required>
+                            value="<?=$order['order_id']?>" required readonly>
                     </div>
-
                     <div class="form-group">
                         <label for="order_price">Order Price</label>
                         <input type="text" class="form-control" id="order_price" name="order_price"
-                            value="<?=isset($order['order_cost']) ? $order['order_cost'] : ''?>" required>
+                            value="<?=isset($order['order_cost']) ? $order['order_cost'] : ''?>" required readonly>
                     </div>
-
-
-
                     <div class="form-group mt-2">
                         <label for="order_status">Order Status</label>
                         <select class="form-control" id="order_status" name="order_status" required>
@@ -102,16 +94,15 @@ if (isset($_POST['update_order'])) {
                             </option>
                             <option value="Delivered" <?=$order['order_status'] === 'Delivered' ? 'selected' : ''?>>
                                 Delivered</option>
-                            <option value="Not Delivered" <?=$order['order_status'] === 'Shipped' ? 'selected' : ''?>>
-                                Shipped
+                            <option value="Shipped" <?=$order['order_status'] === 'Shipped' ? 'selected' : ''?>>Shipped
                             </option>
+
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="order_date">Order Date</label>
                         <input type="text" class="form-control" id="order_date" name="order_date"
-                            value="<?=$order['order_date']?>" required>
+                            value="<?=$order['order_date']?>" required readonly>
                     </div>
                     <button type="submit" class="btn btn-primary" name="update_order"
                         onclick="return confirm('Are you sure you want to update this order?')">Update</button>

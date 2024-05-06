@@ -73,7 +73,6 @@ $products = $stmt2->get_result();
     <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
-                <h4>Orders</h4>
                 <div class="table-responsive">
                     <table class="table table-striped text-center">
                         <thead>
