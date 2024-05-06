@@ -21,14 +21,17 @@ if (isset($_GET['product_id'])) {
         $products = $result->fetch_assoc();
     } else {
         // Redirect if product not found
-        header('Location: product.php');
+        header('Location: products.php');
         exit;
     }
 
     $stmt3 = $conn->prepare("SELECT * FROM `categories` WHERE `cat_status` = '1'");
-    /* $stmt3->bind_param('i', $product_id); */
     $stmt3->execute();
     $categories = $stmt3->get_result();
+
+    $stmt4 = $conn->prepare("SELECT * FROM `colors` WHERE `col_status` = '1'");
+    $stmt4->execute();
+    $colors = $stmt4->get_result();
 
 } elseif (isset($_POST['update_product'])) {
     $product_id = $conn->real_escape_string($_POST['product_id']);
@@ -42,7 +45,7 @@ if (isset($_GET['product_id'])) {
 
     // Prepare and execute the SQL update statement
     $stmt2 = $conn->prepare('UPDATE products SET product_name=?, product_description=?, product_price=?, product_special_offer=?, product_category=?, product_color=? WHERE product_id=?');
-    $stmt2->bind_param("ssdiisi", $product_name, $product_description, $product_price, $product_special_offer, $product_category, $product_color, $product_id);
+    $stmt2->bind_param("ssdissi", $product_name, $product_description, $product_price, $product_special_offer, $product_category, $product_color, $product_id);
     $update_result = $stmt2->execute();
 
     if ($update_result) {
@@ -88,7 +91,7 @@ if (isset($_GET['product_id'])) {
 
                     <div class="form-group mt-2">
                         <label for="product_name">Product Name</label>
-                        <input type="text" class="form-control" placeholder="" id="product_name" name="product_name"
+                        <input type="text" class="form-control" id="product_name" name="product_name"
                             value="<?=isset($products['product_name']) ? $products['product_name'] : ''?>" required>
                     </div>
                     <div class="form-group">
@@ -109,55 +112,29 @@ if (isset($_GET['product_id'])) {
                             value="<?=isset($products['product_special_offer']) ? $products['product_special_offer'] : ''?>"
                             required>
                     </div>
-                    <!-- <div class="form-group">
-                    <label for="product_category">Product Category</label>
-                    <select class="form-control" id="product_category" name="product_category" required>
-                        <option value="">Select Category</option>
-                        <option value="shoes"
-                            <?=isset($products['product_category']) && $products['product_category'] === 'shoes' ? 'selected' : ''?>>
-                            Shoes
-                        </option>
-                        <option value="coat"
-                            <?=isset($products['product_category']) && $products['product_category'] === 'coat' ? 'selected' : ''?>>
-                            Coats
-                        </option>
-                        <option value="watch"
-                            <?=isset($products['product_category']) && $products['product_category'] === 'watch' ? 'selected' : ''?>>
-                            Watches
-                        </option>
-                    </select>
-                </div> -->
                     <div class="form-group">
                         <label for="product_category">Product Category</label>
                         <select class="form-control" id="product_category" name="product_category" required>
                             <option value="">Select Category</option>
                             <?php foreach ($categories as $row) {?>
-                            <option value="<?=$row['cat_id']?>"><?=ucwords($row['cat_name'])?></option>
+                            <option value="<?=$row['cat_name']?>"
+                                <?=isset($products['product_category']) && $products['product_category'] == $row['cat_name'] ? 'selected' : ''?>>
+                                <?=ucwords($row['cat_name'])?>
+                            </option>
                             <?php }?>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="product_category">Product Category</label>
-                        <select class="form-control" id="product_sub_category" name="product_category" required>
-                            <option value="">Select Category</option>
 
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label for="product_color">Product Color</label>
                         <select class="form-control" id="product_color" name="product_color" required>
                             <option value="">Select Color</option>
-                            <option value="red"
-                                <?=isset($products['product_color']) && $products['product_color'] === 'red' ? 'selected' : ''?>>
-                                Red</option>
-                            <option value="blue"
-                                <?=isset($products['product_color']) && $products['product_color'] === 'blue' ? 'selected' : ''?>>
-                                Blue</option>
-                            <option value="yellow"
-                                <?=isset($products['product_color']) && $products['product_color'] === 'yellow' ? 'selected' : ''?>>
-                                Yellow
+                            <?php foreach ($colors as $row) {?>
+                            <option value="<?=$row['col_name']?>"
+                                <?=isset($products['product_color']) && $products['product_color'] == $row['col_name'] ? 'selected' : ''?>>
+                                <?=ucwords($row['col_name'])?>
                             </option>
-                            <!-- Add more options as needed -->
+                            <?php }?>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" name="update_product"
@@ -167,7 +144,9 @@ if (isset($_GET['product_id'])) {
         </div>
     </div>
 
-    <script>
+
+
+    <!-- <script>
     $("#product_category").on('change', function() {
         var value = this.value;
         console.log(value)
@@ -203,6 +182,6 @@ if (isset($_GET['product_id'])) {
             }
         })
     })
-    </script>
+    </script> -->
 
     <?php include "./includes/footer.php";?>

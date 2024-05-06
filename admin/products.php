@@ -3,10 +3,10 @@
 session_start(); // Start the session if not already started
 
 // Check if admin is not logged in
-// if (!isset($_SESSION['admin_logged_in'])) {
-//     header("Location: login.php"); // Redirect to the login page
-//     exit(); // Stop further execution
-// }
+if (!isset($_SESSION['admin_logged_in'])) {
+    header("Location: login.php");
+    exit();
+}
 
 include "./includes/header.php";
 include "../server/connection.php";
@@ -48,6 +48,9 @@ $stmt2->execute();
 $products = $stmt2->get_result();
 ?>
 
+
+
+
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 
     <div class="container">
@@ -72,7 +75,7 @@ $products = $stmt2->get_result();
             <div class="col-md-12">
                 <h4>Orders</h4>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="productTable">
+                    <table class="table table-striped text-center">
                         <thead>
                             <tr>
                                 <th scope="col">Product Id</th>
@@ -101,7 +104,12 @@ $products = $stmt2->get_result();
                                 <td><?=$product['product_color'];?></td>
                                 <td><a href="edit_product.php?product_id=<?=$product['product_id'];?>"
                                         class="btn btn-primary">Edit</a></td>
-                                <td><a href="delete_product.php" class="btn btn-danger">Delete</a></td>
+                                <td>
+                                    <a href="delete_product.php?product_id=<?=$product['product_id']?>"
+                                        class="btn btn-danger" name="delete_product"
+                                        onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                                </td>
+
                             </tr>
 
 

@@ -1,11 +1,12 @@
 <?php
 session_start(); // Start the session
 
-// Check if admin is not logged in
-// if (!isset($_SESSION['admin_logged_in'])) {
-//     header('location: login.php');
-//     exit;
-// }
+// Check if admin is logged in
+if (!isset($_SESSION['admin_logged_in'])) {
+    // If not logged in, redirect to login page
+    header('location: login.php');
+    exit;
+}
 
 include "../server/connection.php";
 
@@ -19,15 +20,16 @@ if (isset($_GET['product_id'])) {
     $delete_result = $stmt->execute();
 
     if ($delete_result) {
-        // Redirect back to products.php after successful deletion
-        header('location: products.php?deleted_successful=Product has been deleted successfully!');
+        // If deletion is successful, redirect back to products.php with success message
+        header('location: ./products.php?deleted_successful=Product has been deleted successfully!');
         exit;
     } else {
-        // Handle deletion failure
-        header('location: products.php?deleted_failure=Failed to delete product. Please try again.!');
+        // If deletion fails, redirect back to products.php with failure message
+        header('location: ./products.php?deleted_failure=Failed to delete product. Please try again!');
+        exit;
     }
-} /* else {
-// Redirect back to products.php if product_id is not provided
-header('Location: products.php');
-exit;
-} */
+} else {
+    // If product_id is not provided in the URL, redirect back to products.php
+    header('location: ./products.php');
+    exit;
+}

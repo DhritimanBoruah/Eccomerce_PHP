@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse w-auto max-height-vh-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white <?=$page_title == 'index' ? 'active bg-gradient-primary' : '';?> "
+                <a class="nav-link text-white <?=$page_title == 'Dashboard' ? 'active bg-gradient-primary' : '';?> "
                     href="index.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
@@ -30,7 +30,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="orders.php">
+                <a class="nav-link text-white <?=$page_title == 'Orders' ? 'active bg-gradient-primary' : '';?>"
+                    href="orders.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">shopping_cart</i>
                     </div>
@@ -39,7 +40,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="customer.php">
+                <a class="nav-link text-white <?=$page_title == 'Customers' ? 'active bg-gradient-primary' : '';?>"
+                    href="customer.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">people</i>
                     </div>
@@ -47,7 +49,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="create_product.php">
+                <a class="nav-link text-white <?=$page_title == 'Create Products' ? 'active bg-gradient-primary' : '';?>"
+                    href="create_product.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">create</i>
                     </div>
@@ -55,7 +58,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="account.php">
+                <a class="nav-link text-white <?=$page_title == 'Account' ? 'active bg-gradient-primary' : '';?>"
+                    href="account.php">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">account_circle</i>
                     </div>

@@ -28,7 +28,6 @@ if (isset($_POST['login_btn'])) {
             $_SESSION['admin_id'] = $admin['admin_id'];
             $_SESSION['admin_name'] = $admin['admin_name'];
             $_SESSION['admin_email'] = $admin['admin_email'];
-            // $_SESSION['logged_in']   = true;
             $_SESSION['admin_logged_in'] = true;
 
             header('location:index.php?message=Logged in Successfully!');
