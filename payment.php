@@ -1,9 +1,8 @@
 <?php
-include 'server/connection.php';
-session_start();
-$total = isset($_SESSION['total']) ? $_SESSION['total'] : 0; // Retrieve the total from session variable
-
 include 'includes/header.php';
+include 'server/connection.php';
+
+$total = isset($_SESSION['total']) ? $_SESSION['total'] : 0; // Retrieve the total from session variable
 
 // Check if the payment button is clicked and fetch order details if available
 if (isset($_POST['order_pay_btn'])) {

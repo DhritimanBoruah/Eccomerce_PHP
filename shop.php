@@ -1,3 +1,5 @@
+<?php include 'includes/header.php';?>
+
 <?php
 include 'server/connection.php';
 
@@ -74,7 +76,7 @@ else {
 }
 ?>
 
-<?php include 'includes/header.php';?>
+
 
 <style>
 /* Sidebar and main content container */

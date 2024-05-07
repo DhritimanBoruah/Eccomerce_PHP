@@ -1,7 +1,11 @@
 <?php
+include 'includes/header.php';
+?>
+
+<?php
 
 include 'server/connection.php';
-session_start();
+
 $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0; // Retrieve the total from session variable
 
 if (!empty($_SESSION['cart']) && isset($_POST['checkout'])) {
@@ -20,10 +24,6 @@ else {
 
 
 
-<?php
-include 'includes/header.php';
-
-?>
 
 
 

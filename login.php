@@ -2,8 +2,6 @@
 include 'server/connection.php';
 include 'includes/header.php';
 
-session_start();
-
 // Redirect if user is already logged in
 if (isset($_SESSION['logged_in'])) {
     header('location:account.php');

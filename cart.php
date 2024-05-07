@@ -1,6 +1,6 @@
+<?php include 'includes/header.php';?>
 <?php
 include 'server/connection.php';
-session_start();
 
 // Add product to cart
 if (isset($_POST['add_to_cart'])) {
@@ -76,7 +76,7 @@ calculateTotalCart();
 
 ?>
 
-<?php include 'includes/header.php';?>
+
 
 <!-- Cart Section -->
 <section class="cart my-5 py-5">
