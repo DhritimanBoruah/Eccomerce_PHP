@@ -69,12 +69,29 @@ $products = $stmt2->get_result();
             </div>
         </div>
     </div>
+    <!-- <style>
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    .table th,
+    .table td {
+        padding: 8px;
+        padding-right: 2px;
+        text-align: center;
+    }
+
+    .btn {
+        padding: 15px 8px;
+        font-size: 12px;
+    }
+    </style> -->
     <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-striped text-center">
+                    <table class="table table-striped text-center table-sm">
                         <thead>
                             <tr>
                                 <th scope="col">Product Id</th>
@@ -84,37 +101,45 @@ $products = $stmt2->get_result();
                                 <th scope="col">Product Offer</th>
                                 <th scope="col">Product Category</th>
                                 <th scope="col">Product Color</th>
-
-                                <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>
+                                <th scope="col" colspan="2">Actions</th>
+                                <!-- Combined Edit and Delete headers into one column -->
                             </tr>
                         </thead>
-
                         <tbody>
-                            <?php foreach ($products as $product) {?>
+                            <?php foreach ($products as $product): ?>
                             <tr>
                                 <td><?=$product['product_id'];?></td>
-                                <td><img src="<?="../assets/imgs/" . $product['product_image'];?>" alt=""
-                                        style="width:70px;height:70px;"></td>
+                                <td>
+                                    <img src="<?="../assets/imgs/" . $product['product_image'];?>" alt="Product Image"
+                                        style="width:70px;height:70px;">
+                                </td>
                                 <td><?=$product['product_name'];?></td>
                                 <td><?="$" . $product['product_price'];?></td>
                                 <td><?=$product['product_special_offer'] . "%";?></td>
                                 <td><?=$product['product_category'];?></td>
                                 <td><?=$product['product_color'];?></td>
-                                <td><a href="edit_product.php?product_id=<?=$product['product_id'];?>"
-                                        class="btn btn-primary">Edit</a></td>
                                 <td>
-                                    <a href="delete_product.php?product_id=<?=$product['product_id']?>"
-                                        class="btn btn-danger" name="delete_product"
-                                        onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                                    <!-- Edit Product Button -->
+                                    <a href="edit_product.php?product_id=<?=$product['product_id'];?>"
+                                        class="btn btn-primary">Edit</a>
                                 </td>
 
+                                <td>
+                                    <!-- Edit Product Button -->
+                                    <a href="edit_images.php?product_id=<?=$product['product_id'];?>&product_name=<?=$product['product_name'];?>"
+                                        class="btn btn-warning">Edit Images</a>
+                                </td>
+                                <td>
+                                    <!-- Delete Product Button -->
+                                    <a href="delete_product.php?product_id=<?=$product['product_id'];?>"
+                                        class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                                </td>
                             </tr>
-
-
-                            <?php }?>
+                            <?php endforeach;?>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
