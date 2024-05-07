@@ -39,6 +39,7 @@ if (isset($_POST['update_order'])) {
     // Prepare and execute the SQL update statement
     $stmt2 = $conn->prepare('UPDATE orders SET order_status=? WHERE order_id=?');
     $stmt2->bind_param("si", $order_status, $order_id);
+
     $update_result = $stmt2->execute();
 
     if ($update_result) {
@@ -87,6 +88,7 @@ if (isset($_POST['update_order'])) {
                     <div class="form-group mt-2">
                         <label for="order_status">Order Status</label>
                         <select class="form-control" id="order_status" name="order_status" required>
+
                             <option value="">Select Order Status</option>
                             <option value="Not Paid" <?=$order['order_status'] === 'Not Paid' ? 'selected' : ''?>>Not
                                 Paid</option>

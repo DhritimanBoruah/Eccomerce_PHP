@@ -16,6 +16,45 @@ $page_title = 'Create Products';
 include 'includes/navbar.php';
 include 'includes/sidebar.php';
 
+if (isset($_POST['create_btn'])) {
+    $product_name = $conn->real_escape_string($_POST['product_name']);
+    $product_description = $conn->real_escape_string($_POST['product_description']);
+    $product_price = $conn->real_escape_string($_POST['product_price']);
+    $product_special_offer = $conn->real_escape_string($_POST['product_special_offer']);
+    $product_category = $conn->real_escape_string($_POST['product_category']);
+    $product_color = $conn->real_escape_string($_POST['product_color']);
+
+    $image1 = $_FILES['image1']['tmp_name'];
+    $image2 = $_FILES['image2']['tmp_name'];
+    $image3 = $_FILES['image3']['tmp_name'];
+    $image4 = $_FILES['image4']['tmp_name'];
+
+    $image_name1 = $product_name . "1.jpeg";
+    $image_name2 = $product_name . "2.jpeg";
+    $image_name3 = $product_name . "3.jpeg";
+    $image_name4 = $product_name . "4.jpeg";
+
+// Upload images
+    move_uploaded_file($image1, "../assets/imgs/" . $image_name1);
+    move_uploaded_file($image2, "../assets/imgs/" . $image_name2);
+    move_uploaded_file($image3, "../assets/imgs/" . $image_name3);
+    move_uploaded_file($image4, "../assets/imgs/" . $image_name4);
+
+    $stmt = $conn->prepare("INSERT INTO products (product_name, product_category, product_description, product_image, product_image2, product_image3, product_image4, product_price, product_special_offer, product_color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    $stmt->bind_param("ssssssssss", $product_name, $product_category, $product_description,
+        $image_name1, $image_name2, $image_name3, $image_name4, $product_price, $product_special_offer, $product_color);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Product Recorded successfully!');</script>";
+        echo "<script>window.location.href = './products.php';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Failed to record the product. Please try again.');</script>";
+    }
+
+}
+
 ?>
 
 
@@ -48,7 +87,7 @@ include 'includes/sidebar.php';
         <div class="row mt-3 justify-content-center">
             <div class="col-md-8">
                 <div>
-                    <form method="post" action="add_product.php">
+                    <form method="post" action="create_product.php" id="create-form" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="product_name">Product Name</label>
                             <input type="text" class="form-control" id="product_name" name="product_name" required
@@ -56,38 +95,19 @@ include 'includes/sidebar.php';
                         </div>
                         <div class="form-group">
                             <label for="product_category">Product Category</label>
-                            <input type="text" class="form-control" id="product_category" name="product_category"
-                                required value="">
+                            <select class="form-control" id="product_category" name="product_category" required>
+                                <option value="">Select Category</option>
+                                <option value="Shoes">Shoes</option>
+                                <option value="clothes">Chothes</option>
+                                <option value="Watches">Watches</option>
+                            </select>
                         </div>
+
 
                         <div class="form-group">
                             <label for="product_description">Product Description</label>
                             <textarea class="form-control" id="product_description" name="product_description"
                                 required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="product_image">Product Image</label>
-                            <input type="file" class="form-control" id="product_image" name="product_image" required
-                                value="">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="product_image2">Product Image 2</label>
-                            <input type="file" class="form-control" id="product_image2" name="product_image2" required
-                                value="">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="product_image3">Product Image 3</label>
-                            <input type="file" class="form-control" id="product_image3" name="product_image3" required
-                                value="">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="product_image4">Product Image 4</label>
-                            <input type="file" class="form-control" id="product_image4" name="product_image4" required
-                                value="">
                         </div>
 
                         <div class="form-group">
@@ -104,11 +124,37 @@ include 'includes/sidebar.php';
 
                         <div class="form-group">
                             <label for="product_color">Product Color</label>
-                            <input type="text" class="form-control" id="product_color" name="product_color" required
-                                value="">
+                            <select class="form-control" id="product_color" name="product_color" required>
+                                <option value="">Select Color</option>
+                                <option value="red">red</option>
+                                <option value="blue">blue</option>
+                                <option value="white">White</option>
+                            </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Add Product</button>
+                        <div class="form-group">
+                            <label for="image1">Product Image1</label>
+                            <input type="file" class="form-control" id="image1" name="image1" required value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image2">Product Image 2</label>
+                            <input type="file" class="form-control" id="image2" name="image2" required value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image3">Product Image 3</label>
+                            <input type="file" class="form-control" id="image3" name="image3" required value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image4">Product Image 4</label>
+                            <input type="file" class="form-control" id="image4" name="image4" required value="">
+                        </div>
+
+
+
+                        <button type="submit" class="btn btn-primary" name="create_btn">Add Product</button>
                     </form>
 
 

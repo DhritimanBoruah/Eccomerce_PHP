@@ -53,7 +53,9 @@ $totalCustomers = $customers->fetch_assoc()['total_customers'];
                 <div class="card bg-primary text-white mb-4" style="height: 200px;">
                     <div class="card-body">
                         <h2 class="card-title">Orders</h2>
-                        <p class="card-text" style="color: white;">Total number of orders: <?=$totalOrders?></p>
+                        <p class="card-text" style="color: white;">Total number of orders:
+                            <span style="font-size: 40px;"><?=$totalOrders?></span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -61,7 +63,9 @@ $totalCustomers = $customers->fetch_assoc()['total_customers'];
                 <div class="card bg-success text-white mb-4" style="height: 200px;">
                     <div class="card-body">
                         <h2 class="card-title">Customers</h2>
-                        <p class="card-text" style="color: white;">Total number of customers: <?=$totalCustomers?></p>
+                        <p class="card-text" style="color: white;">Total number of customers:
+                            <span style="font-size: 40px;"><?=$totalCustomers?></span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -69,7 +73,9 @@ $totalCustomers = $customers->fetch_assoc()['total_customers'];
                 <div class="card bg-warning text-dark mb-4" style="height: 200px;">
                     <div class="card-body">
                         <h2 class="card-title">Products</h2>
-                        <p class="card-text" style="color: white;">Total number of products: <?=$totalProducts?></p>
+                        <p class="card-text" style="color: white;">Total number of products:
+                            <span style="font-size: 40px;"><?=$totalProducts?></span>
+                        </p>
                     </div>
                 </div>
             </div>

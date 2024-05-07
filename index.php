@@ -96,7 +96,7 @@ include 'includes/header.php';
                 <i class="fas fa-star"></i>
             </div>
             <h5 class="p-name"><?=$row['product_name'];?></h5>
-            <h4 class="p-price">$<?=$row['product_price'];?></h4>
+            <h4 class="p-price"><?=$row['product_price'];?>/-</h4>
             <a href="single_product.php?product_id=<?=$row['product_id'];?>"><button class="buy-btn">Buy
                     Now</button></a>
         </div>
@@ -143,7 +143,7 @@ include 'includes/header.php';
                 <i class="fas fa-star"></i>
             </div>
             <h5 class="p-name"><?=$row['product_name'];?></h5>
-            <h4 class="p-price">$<?=$row['product_price'];?></h4>
+            <h4 class="p-price"><?=$row['product_price'];?>/-</h4>
             <a href="single_product.php?product_id=<?=$row['product_id'];?>"><button class="buy-btn">Buy
                     Now</button></a>
         </div>
