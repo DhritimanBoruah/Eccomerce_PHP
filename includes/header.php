@@ -1,7 +1,7 @@
 <!-- <?php
-session_start();
+        session_start();
 
-?> -->
+        ?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +11,10 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 
     <!-- font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -23,8 +25,7 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
         <div class="container-fluid">
             <img class="logoo" src="assets/imgs/logoo.jpg" alt="" width="70" height="70" />
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -44,9 +45,9 @@ session_start();
                     </li>
                     <a href="cart.php">
                         <li class="nav-item"><i class="fas fa-shopping-cart">
-                                <?php if (isset($_SESSION['quantity']) && $_SESSION['quantity'] != 0) {?>
-                                <span class="cart_quantity"><?=$_SESSION['quantity'];?></span>
-                                <?php }?>
+                                <?php if (isset($_SESSION['quantity']) && $_SESSION['quantity'] != 0) { ?>
+                                    <span class="cart_quantity"><?= $_SESSION['quantity']; ?></span>
+                                <?php } ?>
 
                             </i></li>
                     </a>

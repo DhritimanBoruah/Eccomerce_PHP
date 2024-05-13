@@ -59,6 +59,7 @@ include 'includes/header.php';
             <h2><?=$row['product_price'];?>$</h2>
 
             <form action="cart.php" method="post">
+                <input type="hidden" name="product_id" value="<?=$row['product_id'];?>">
                 <input type="hidden" name="product_image" value="<?=$row['product_image'];?>">
                 <input type="hidden" name="product_name" value="<?=$row['product_name'];?>">
                 <input type="hidden" name="product_price" value="<?=$row['product_price'];?>">

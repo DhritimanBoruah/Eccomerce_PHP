@@ -1,4 +1,4 @@
-<?php include 'includes/header.php';?>
+<?php include 'includes/header.php'; ?>
 <?php
 include 'server/connection.php';
 
@@ -26,7 +26,6 @@ if (isset($_POST['add_to_cart'])) {
         // Start a new cart array
         $_SESSION['cart'] = array($product_array);
     }
-
 }
 
 // Remove product from cart-----------------need work
@@ -40,7 +39,6 @@ elseif (isset($_POST['remove_product'])) {
             break; // Stop looping once the product is found and removed
         }
     }
-
 }
 
 // Update product quantity in cart-----------------need work
@@ -55,7 +53,6 @@ elseif (isset($_POST['edit_quantity'])) {
             break; // Stop looping once the product is found and updated
         }
     }
-
 }
 
 // Function to calculate total cart amount
@@ -74,6 +71,7 @@ function calculateTotalCart()
 // Calculate total cart amount initially
 calculateTotalCart();
 
+// echo '<pre>';print_r($_SESSION);echo '</pre>';die();
 ?>
 
 
@@ -89,42 +87,42 @@ calculateTotalCart();
                 <th>Quantity</th>
                 <th>Sub-total</th>
             </tr>
-            <?php foreach ($_SESSION['cart'] ?? [] as $key => $value) {?>
+            <?php foreach ($_SESSION['cart'] ?? [] as $key => $value) { ?>
 
-            <tr>
-                <td>
-                    <div class="product-info">
-                        <img src="assets/imgs/<?=$value['product_image'];?>" alt="">
-                        <div>
-                            <p><?=$value['product_name'];?></p>
-                            <small><span>$</span><?=$value['product_price'];?></small>
-                            <br>
-                            <form action="cart.php" method="post">
-                                <input type="hidden" name="product_id" value="<?=$value['product_id'];?>">
-                                <input type="submit" name="remove_product" class="remove-btn" value="Remove">
-                            </form>
+                <tr>
+                    <td>
+                        <div class="product-info">
+                            <img src="assets/imgs/<?= $value['product_image']; ?>" alt="">
+                            <div>
+                                <p><?= $value['product_name']; ?></p>
+                                <small><span>$</span><?= $value['product_price']; ?></small>
+                                <br>
+                                <form action="cart.php" method="post">
+                                    <input type="hidden" name="product_id" value="<?= $value['product_id']; ?>">
+                                    <input type="submit" name="remove_product" class="remove-btn" value="Remove">
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <form action="cart.php" method="post">
-                        <input type="hidden" name="product_id" value="<?=$value['product_id'];?>">
-                        <input type="number" name="product_quantity" value="<?=$value['product_quantity'];?>">
-                        <input type="submit" name="edit_quantity" class="edit-btn" value="Edit">
-                    </form>
-                </td>
-                <td>
-                    <span>$</span>
-                    <span class="product-price"><?=$value['product_quantity'] * $value['product_price'];?></span>
-                </td>
-            </tr>
-            <?php }?>
+                    </td>
+                    <td>
+                        <form action="cart.php" method="post">
+                            <input type="hidden" name="product_id" value="<?= $value['product_id']; ?>">
+                            <input type="number" name="product_quantity" value="<?= $value['product_quantity']; ?>">
+                            <input type="submit" name="edit_quantity" class="edit-btn" value="Edit">
+                        </form>
+                    </td>
+                    <td>
+                        <span>$</span>
+                        <span class="product-price"><?= $value['product_quantity'] * $value['product_price']; ?></span>
+                    </td>
+                </tr>
+            <?php } ?>
         </table>
         <div class="cart-total">
             <table>
                 <tr>
                     <td>Total</td>
-                    <td>$<?=isset($_SESSION['total']) ? $_SESSION['total'] : '0';?></td>
+                    <td>$<?= isset($_SESSION['total']) ? $_SESSION['total'] : '0'; ?></td>
                 </tr>
             </table>
         </div>
@@ -136,4 +134,4 @@ calculateTotalCart();
     </div>
 </section>
 
-<?php include 'includes/footer.php';?>
+<?php include 'includes/footer.php'; ?>
