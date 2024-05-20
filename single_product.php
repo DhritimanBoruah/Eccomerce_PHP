@@ -56,7 +56,7 @@ include 'includes/header.php';
         <div class="col-lg-6 col-md-12 col-sm-12">
             <h6 style="color: coral;"><?=$row['product_category'];?></h6>
             <h3 class="py-4"><?=$row['product_name'];?></h3>
-            <h2><?=$row['product_price'];?>$</h2>
+            <h2><?=$row['product_price'];?>/-</h2>
 
             <form action="cart.php" method="post">
                 <input type="hidden" name="product_id" value="<?=$row['product_id'];?>">
