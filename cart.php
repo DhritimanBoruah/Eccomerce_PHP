@@ -1,5 +1,7 @@
-<?php include 'includes/header.php'; ?>
 <?php
+session_start(); // Ensure session is started
+
+include 'includes/header.php';
 include 'server/connection.php';
 
 // Add product to cart
@@ -20,15 +22,26 @@ if (isset($_POST['add_to_cart'])) {
 
     // Check if cart session variable exists
     if (isset($_SESSION['cart'])) {
-        // Append product to existing cart array
-        $_SESSION['cart'][] = $product_array;
+        // Check if product is already in the cart and update quantity
+        $found = false;
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($item['product_id'] === $product_id) {
+                $item['product_quantity'] += $product_quantity;
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            // Append product to existing cart array
+            $_SESSION['cart'][] = $product_array;
+        }
     } else {
         // Start a new cart array
         $_SESSION['cart'] = array($product_array);
     }
 }
 
-// Remove product from cart-----------------need work
+// Remove product from cart
 elseif (isset($_POST['remove_product'])) {
     $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
 
@@ -36,21 +49,26 @@ elseif (isset($_POST['remove_product'])) {
     foreach ($_SESSION['cart'] as $key => $product) {
         if ($product['product_id'] === $product_id) {
             unset($_SESSION['cart'][$key]);
+            // Reindex the array to prevent gaps
+            $_SESSION['cart'] = array_values($_SESSION['cart']);
             break; // Stop looping once the product is found and removed
         }
     }
 }
 
-// Update product quantity in cart-----------------need work
+// Update product quantity in cart
 elseif (isset($_POST['edit_quantity'])) {
     $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
     $product_quantity = mysqli_real_escape_string($conn, $_POST['product_quantity']);
 
-    // Loop through the cart to find the product and update its quantity
-    foreach ($_SESSION['cart'] as $key => &$product) {
-        if ($product['product_id'] === $product_id) {
-            $_SESSION['cart'][$key]['product_quantity'] = $product_quantity;
-            break; // Stop looping once the product is found and updated
+    // Ensure quantity is a positive integer
+    if (filter_var($product_quantity, FILTER_VALIDATE_INT, array("options" => array("min_range" => 1)))) {
+        // Loop through the cart to find the product and update its quantity
+        foreach ($_SESSION['cart'] as $key => &$product) {
+            if ($product['product_id'] === $product_id) {
+                $product['product_quantity'] = $product_quantity;
+                break; // Stop looping once the product is found and updated
+            }
         }
     }
 }
@@ -60,9 +78,11 @@ function calculateTotalCart()
 {
     $total = 0;
     $quantity = 0;
-    foreach ($_SESSION['cart'] as $item) {
-        $total += $item['product_quantity'] * $item['product_price'];
-        $quantity += $item['product_quantity'];
+    if (isset($_SESSION['cart'])) {
+        foreach ($_SESSION['cart'] as $item) {
+            $total += $item['product_quantity'] * $item['product_price'];
+            $quantity += $item['product_quantity'];
+        }
     }
     $_SESSION['total'] = $total;
     $_SESSION['quantity'] = $quantity;
@@ -71,10 +91,7 @@ function calculateTotalCart()
 // Calculate total cart amount initially
 calculateTotalCart();
 
-// echo '<pre>';print_r($_SESSION);echo '</pre>';die();
 ?>
-
-
 
 <!-- Cart Section -->
 <section class="cart my-5 py-5">
@@ -88,17 +105,16 @@ calculateTotalCart();
                 <th>Sub-total</th>
             </tr>
             <?php foreach ($_SESSION['cart'] ?? [] as $key => $value) { ?>
-
                 <tr>
                     <td>
                         <div class="product-info">
-                            <img src="assets/imgs/<?= $value['product_image']; ?>" alt="">
+                            <img src="assets/imgs/<?= htmlspecialchars($value['product_image']); ?>" alt="">
                             <div>
-                                <p><?= $value['product_name']; ?></p>
-                                <small><span>$</span><?= $value['product_price']; ?></small>
+                                <p><?= htmlspecialchars($value['product_name']); ?></p>
+                                <small><span>$</span><?= htmlspecialchars($value['product_price']); ?></small>
                                 <br>
                                 <form action="cart.php" method="post">
-                                    <input type="hidden" name="product_id" value="<?= $value['product_id']; ?>">
+                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($value['product_id']); ?>">
                                     <input type="submit" name="remove_product" class="remove-btn" value="Remove">
                                 </form>
                             </div>
@@ -106,14 +122,14 @@ calculateTotalCart();
                     </td>
                     <td>
                         <form action="cart.php" method="post">
-                            <input type="hidden" name="product_id" value="<?= $value['product_id']; ?>">
-                            <input type="number" name="product_quantity" value="<?= $value['product_quantity']; ?>">
+                            <input type="hidden" name="product_id" value="<?= htmlspecialchars($value['product_id']); ?>">
+                            <input type="number" name="product_quantity" value="<?= htmlspecialchars($value['product_quantity']); ?>" min="1">
                             <input type="submit" name="edit_quantity" class="edit-btn" value="Edit">
                         </form>
                     </td>
                     <td>
                         <span>$</span>
-                        <span class="product-price"><?= $value['product_quantity'] * $value['product_price']; ?></span>
+                        <span class="product-price"><?= htmlspecialchars($value['product_quantity'] * $value['product_price']); ?></span>
                     </td>
                 </tr>
             <?php } ?>
@@ -122,7 +138,7 @@ calculateTotalCart();
             <table>
                 <tr>
                     <td>Total</td>
-                    <td>$<?= isset($_SESSION['total']) ? $_SESSION['total'] : '0'; ?></td>
+                    <td>$<?= isset($_SESSION['total']) ? htmlspecialchars($_SESSION['total']) : '0'; ?></td>
                 </tr>
             </table>
         </div>

@@ -1,31 +1,34 @@
 <?php
 include 'includes/header.php';
 include 'server/connection.php';
+session_start();
 
-$total = isset($_SESSION['total']) ? $_SESSION['total'] : 0; // Retrieve the total from session variable
+$total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 
-// Check if the payment button is clicked and fetch order details if available
-if (isset($_POST['order_pay_btn'])) {
-    // Fetch order details from the database (You need to implement this part)
-    // For now, let's assume $row is fetched from the database
-    $order_status = isset($row['order_status']) ? $row['order_status'] : '';
-    $order_total_price = isset($row['order_total_price']) ? $row['order_total_price'] : '';
+$stmt = $conn->prepare('SELECT * FROM orders WHERE order_id = ?');
+$stmt->bind_param('i', $order_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows == 0) {
+    header('Location: index.php');
+    exit();
 }
-
 ?>
 
-<!-- payment -->
+<!-- Payment -->
 <section class="my-5 py-5">
     <div class="container text-center mt-3 pt-5">
-        <h2 class="form-weight-bold">Payment</h2>
+        <h2 class="font-weight-bold">Payment</h2>
         <hr class="mx-auto">
     </div>
     <div class="mx-auto container text-center">
-        <?php if ($total != 0 || $order_status == "not paid") { ?>
-            <p>Total Payment: $<?= $total != 0 ? $total : $order_total_price; ?></p>
-            <form id="payment-form" action="payment.php" method="POST">
-                <input type="hidden" name="amount" value="<?= $total != 0 ? $total * 100 : $order_total_price * 100 ?>">
-                <input type="hidden" name="order_pay_btn" value="1">
+        <?php if ($total != 0) { ?>
+            <p>Total Payment: $<?= $total ?></p>
+            <form id="payment-form" action="store_payment.php" method="POST">
+                <input type="hidden" name="amount" value="<?= $total * 100 ?>">
+                <input type="hidden" name="order_id" value="<?= $order_id ?>">
                 <button type="button" class="btn btn-primary" id="rzp-button">Pay now</button>
             </form>
         <?php } else { ?>
@@ -42,21 +45,23 @@ include 'includes/footer.php';
 <script>
     var options = {
         "key": "rzp_test_h2ndppkBYVhqvE", // Enter the Key ID generated from the Dashboard
-        "amount": document.querySelector('input[name="amount"]').value, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "amount": document.querySelector('input[name="amount"]').value, // Amount is in currency subunits
         "currency": "INR",
-        "name": "Ecommerce", //your business name
+        "name": "Ecommerce",
         "description": "Test Transaction",
         "image": "./assets/imgs/logoo.jpg",
         "handler": function(response) {
-            // Redirect or handle payment success
-            console.log(response);
-            // Redirect to success page or handle success response
-            window.location.href = 'payment_success.php?payment_id=' + response.razorpay_payment_id;
+            // Send the payment ID and order ID to the server
+            var form = document.getElementById('payment-form');
+            form.appendChild(document.createElement('input')).setAttribute('type', 'hidden');
+            form.lastChild.setAttribute('name', 'razorpay_payment_id');
+            form.lastChild.setAttribute('value', response.razorpay_payment_id);
+            form.submit();
         },
-        "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-            "name": "Dhritiman", //your customer's name
-            "email": "Dhritiman.kumar@example.com",
-            "contact": "6001058634" //Provide the customer's phone number for better conversion rates 
+        "prefill": {
+            "name": "Dhritiman",
+            "email": "Dhritiman@example.com",
+            "contact": "9876543211"
         },
         "notes": {
             "address": "Razorpay Corporate Office"
