@@ -2,7 +2,8 @@
 
 include 'connection.php';
 
-$stmt = $conn->prepare("SELECT * FROM products LIMIT 4");
+// Select 4 random products
+$stmt = $conn->prepare("SELECT * FROM products ORDER BY RAND() LIMIT 4");
 
 $stmt->execute();
 

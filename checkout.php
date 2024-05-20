@@ -1,5 +1,5 @@
 <?php
-// // Ensure session is started at the beginning
+
 
 include 'includes/header.php';
 include 'server/connection.php';

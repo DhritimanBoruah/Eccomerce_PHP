@@ -1,5 +1,5 @@
 <?php
-session_start(); // Ensure session is started
+// session_start(); // Ensure session is started
 
 include 'includes/header.php';
 include 'server/connection.php';

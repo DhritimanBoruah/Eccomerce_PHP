@@ -47,7 +47,7 @@ include 'includes/header.php';
             <img class="img-fluid" src="assets/imgs/1.webp" alt="">
             <div class="details">
                 <h2>Extremely Awsome Shoes</h2>
-                <button class="text-uppercase">Shop Now</button>
+                <a href="shop.php"><button class="text-uppercase">Shop Now</button></a>
             </div>
         </div>
         <!-- two -->
@@ -55,7 +55,7 @@ include 'includes/header.php';
             <img class="img-fluid" src="assets/imgs/2.avif" alt="">
             <div class="details">
                 <h2>Awsome Jackets</h2>
-                <button class="text-uppercase">Shop Now</button>
+                <a href="shop.php"><button class="text-uppercase">Shop Now</button></a>
             </div>
         </div>
         <!-- three -->
@@ -63,7 +63,7 @@ include 'includes/header.php';
             <img class="img-fluid" src="assets/imgs/3.webp" alt="">
             <div class="details">
                 <h2>50% OFF watches</h2>
-                <button class="text-uppercase">Shop Now</button>
+                <a href="shop.php"><button class="text-uppercase">Shop Now</button></a>
             </div>
         </div>
     </div>

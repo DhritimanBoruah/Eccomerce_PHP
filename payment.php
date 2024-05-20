@@ -1,7 +1,7 @@
 <?php
 include 'includes/header.php';
 include 'server/connection.php';
-session_start();
+// session_start();
 
 $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
