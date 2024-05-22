@@ -2,15 +2,24 @@
 include 'includes/header.php';
 ?>
 
+<style>
+    .product {
+        transition: transform 0.3s ease;
+    }
+
+    .product:hover {
+        transform: translateY(-10px);
+    }
+</style>
 
 
 
 <!-- home -->
 <section id="home">
     <div class="container">
-        <h5>NEW ARRIVALS</h5>
+        <h5><em>NEW ARRIVALS</em></h5>
         <h1><span>Best Prices </span>This Season</h1>
-        <p>E-shop offers the best products for the most affordable prices</p>
+        <p><em>E-shop offers the best products for the most affordable prices</em></p>
         <button>Shop Now</button>
     </div>
 </section>
@@ -20,7 +29,7 @@ include 'includes/header.php';
     <div class="container">
         <h3>Brands</h3>
         <hr>
-        <p>Here you can check our brands</p>
+        <p><em>Here you can check our brands</em></p>
         <br>
     </div>
 
@@ -37,7 +46,7 @@ include 'includes/header.php';
     <div class="container">
         <h3>New</h3>
         <hr>
-        <p>check here</p>
+        <p><em>check here</em></p>
         <br>
     </div>
 
@@ -77,7 +86,7 @@ include 'includes/header.php';
     <div class="container text-center mt-5 py-5">
         <h3>Our Featured</h3>
         <hr>
-        <p>Here you can check our featured products</p>
+        <p><em>Here you can check our featured products</em></p>
     </div>
     <div class="row mx-auto container-fluid">
 
@@ -86,7 +95,7 @@ include 'includes/header.php';
 
         <?php while ($row = $featured_products->fetch_assoc()) { ?>
 
-            <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+            <div class="product text-center col-lg-3 col-md-4 col-sm-12" onclick="console.log('Clicked!'); window.location.href='single_product.php?product_id=<?= $row['product_id']; ?>';">
                 <img class="img-fluid mb-3" src="assets/imgs/<?= $row['product_image']; ?>" alt="">
                 <div class="star">
                     <i class="fas fa-star"></i>
@@ -125,7 +134,7 @@ include 'includes/header.php';
     <div class="container text-center mt-5 py-5">
         <h3>Dresses and Coats</h3>
         <hr>
-        <p>Here you can check our amazing clothes</p>
+        <p><em>Here you can check our amazing clothes</em></p>
     </div>
     <div class="row mx-auto container-fluid">
 
@@ -133,7 +142,7 @@ include 'includes/header.php';
 
         <?php while ($row = $coat_products->fetch_assoc()) { ?>
 
-            <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+            <div class="product text-center col-lg-3 col-md-4 col-sm-12" onclick="console.log('Clicked!'); window.location.href='single_product.php?product_id=<?= $row['product_id']; ?>';">
                 <img class="img-fluid mb-3" src="assets/imgs/<?= $row['product_image']; ?>" alt="">
                 <div class="star">
                     <i class="fas fa-star"></i>
@@ -158,7 +167,7 @@ include 'includes/header.php';
     <div class="container text-center mt-5 py-5">
         <h3>Shoes</h3>
         <hr>
-        <p>Here you can check our amazing Shoes</p>
+        <p><em>Here you can check our amazing Shoes</em></p>
     </div>
     <div class="row mx-auto container-fluid">
 
@@ -167,7 +176,7 @@ include 'includes/header.php';
         <?php while ($row = $shoes_products->fetch_assoc()) { ?>
 
 
-            <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+            <div class="product text-center col-lg-3 col-md-4 col-sm-12" onclick="console.log('Clicked!'); window.location.href='single_product.php?product_id=<?= $row['product_id']; ?>';">
                 <img class="img-fluid mb-3" src="assets/imgs/<?= $row['product_image']; ?>" alt="">
                 <div class="star">
                     <i class="fas fa-star"></i>
@@ -196,7 +205,7 @@ include 'includes/header.php';
     <div class="container text-center mt-5 py-5">
         <h3>watches</h3>
         <hr>
-        <p>Here you can check our amazing watches</p>
+        <p><em>Here you can check our amazing watches</em></p>
     </div>
     <div class="row mx-auto container-fluid">
         <?php include 'server/get_watches.php' ?>
@@ -204,7 +213,7 @@ include 'includes/header.php';
         <?php while ($row = $watch_products->fetch_assoc()) { ?>
 
 
-            <div class="product text-center col-lg-3 col-md-4 col-sm-12">
+            <div class="product text-center col-lg-3 col-md-4 col-sm-12" onclick="console.log('Clicked!'); window.location.href='single_product.php?product_id=<?= $row['product_id']; ?>';">
                 <img class="img-fluid mb-3" src="assets/imgs/<?= $row['product_image']; ?>" alt="">
                 <div class="star">
                     <i class="fas fa-star"></i>

@@ -11,12 +11,10 @@ if (!isset($_SESSION['admin_logged_in'])) {
 include "./includes/header.php";
 include "../server/connection.php";
 
-$page_title = 'Products';
+$page_title = 'Customers';
 
 include 'includes/navbar.php';
 include 'includes/sidebar.php';
-
-// echo $page_title;exit();
 
 // Determine page no
 if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
@@ -42,13 +40,15 @@ $next_page = $page_no + 1;
 $adjacent = "2";
 $total_no_pages = ceil($total_records / $total_products_per_page);
 
-// Get all products
-$stmt2 = $conn->prepare("SELECT * FROM products LIMIT $offset,$total_products_per_page");
-$stmt2->execute();
-$products = $stmt2->get_result();
+
+// Prepare the statement to get all registered users (non-guest users)
+$stmt = $conn->prepare("SELECT * FROM users WHERE is_guest=1");
+$stmt->execute();
+$users = $stmt->get_result();
+
+
+
 ?>
-
-
 
 
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -56,67 +56,64 @@ $products = $stmt2->get_result();
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Products</h2>
+                <h2>Customers</h2>
 
-                <?php if (isset($_GET['deleted_failure'])) { ?>
-                    <p class="text-center" style="color:red;"><?= $_GET['deleted_failure']; ?></p>
-                <?php } ?>
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-lg-between">
+                        <div class="col-lg-12">
+                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                                <div class="row align-items-center justify-content-lg-between">
+                                    <div class="col-lg-12">
+                                        <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 20px;">
+                                            <form>
+                                                <div class="form-group">
+                                                    <select class="form-control" id="orderTypeDropdown" onchange="window.location.href=this.value;">
+                                                        <option value="customer.php" <?php if (basename($_SERVER['PHP_SELF']) == 'customer.php') echo 'selected'; ?>>All</option>
+                                                        <option value="r_customers.php" <?php if (basename($_SERVER['PHP_SELF']) == 'r_customers.php') echo 'selected'; ?>>Registered Customer</option>
+                                                        <option value="guest_customers.php" <?php if (basename($_SERVER['PHP_SELF']) == 'guest_customers.php') echo 'selected'; ?>>Guest</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
 
-                <?php if (isset($_GET['deleted_successful'])) { ?>
-                    <p class="text-center" style="color:green;"><?= $_GET['deleted_successful']; ?></p>
-                <?php } ?>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
+
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped text-center">
                         <thead>
-                            <tr>
-                                <th scope="col">Product Id</th>
-                                <th scope="col">Product Image</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Product Price</th>
-                                <th scope="col">Product Offer</th>
-                                <th scope="col">Product Category</th>
-                                <th scope="col">Product Color</th>
-                                <th scope="col" colspan="2">Actions</th>
+                            <tr style="background-color: coral; color:white;">
+                                <th scope="col">User Id</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">User Email</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php foreach ($products as $product) : ?>
-                                <tr>
-                                    <td><?= $product['product_id']; ?></td>
-                                    <td>
-                                        <img src="<?= "../assets/imgs/" . $product['product_image']; ?>" alt="Product Image" style="width:70px;height:70px;">
-                                    </td>
-                                    <td><?= $product['product_name']; ?></td>
-                                    <td><?= "$" . $product['product_price']; ?></td>
-                                    <td><?= $product['product_special_offer'] . "%"; ?></td>
-                                    <td><?= $product['product_category']; ?></td>
-                                    <td><?= $product['product_color']; ?></td>
-                                    <td>
-                                        <!-- Edit Product Button -->
-                                        <a href="edit_product.php?product_id=<?= $product['product_id']; ?>" class="btn btn-primary">Edit</a>
-                                    </td>
 
-                                    <td>
-                                        <!-- Edit Product Button -->
-                                        <a href="edit_images.php?product_id=<?= $product['product_id']; ?>&product_name=<?= $product['product_name']; ?>" class="btn btn-warning">Edit Images</a>
-                                    </td>
-                                    <td>
-                                        <!-- Delete Product Button -->
-                                        <a href="delete_product.php?product_id=<?= $product['product_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                        <?php foreach ($users as $user) { ?>
+                            <tr>
+                                <td><?= $user['user_id']; ?></td>
+                                <td><?= $user['user_name']; ?></td>
+                                <td><?= $user['user_email']; ?></td>
+                            </tr>
+
+                        <?php } ?>
+                        <tbody>
+
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

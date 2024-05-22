@@ -50,7 +50,7 @@ session_start();
 
                             </i></li>
                     </a>
-                    <a href="register.php">
+                    <a href="login.php">
                         <li class="nav-item"><i class="fas fa-user"></i></li>
                     </a>
                 </ul>

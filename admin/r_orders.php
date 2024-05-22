@@ -1,22 +1,19 @@
 <?php
-
-session_start(); // Start the session if not already started
+session_start(); // Start the session
 
 // Check if admin is not logged in
 if (!isset($_SESSION['admin_logged_in'])) {
-    header("Location: login.php");
-    exit();
+    header('location: login.php');
+    exit;
 }
 
 include "./includes/header.php";
 include "../server/connection.php";
 
-$page_title = 'Products';
+$page_title = 'Orders';
 
 include 'includes/navbar.php';
 include 'includes/sidebar.php';
-
-// echo $page_title;exit();
 
 // Determine page no
 if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
@@ -28,7 +25,7 @@ if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
 }
 
 // Return the number of products
-$stmt1 = $conn->prepare("SELECT COUNT(*) AS total_records FROM products");
+$stmt1 = $conn->prepare("SELECT COUNT(*) AS total_records FROM orders");
 $stmt1->execute();
 $stmt1->bind_result($total_records);
 $stmt1->store_result();
@@ -42,21 +39,52 @@ $next_page = $page_no + 1;
 $adjacent = "2";
 $total_no_pages = ceil($total_records / $total_products_per_page);
 
-// Get all products
-$stmt2 = $conn->prepare("SELECT * FROM products LIMIT $offset,$total_products_per_page");
+// Get all products with user names
+$stmt2 = $conn->prepare("SELECT o.*, u.user_name, u.phone_number, u.shipping_address FROM orders o LEFT JOIN users u ON o.user_id = u.user_id WHERE u.is_guest=0 LIMIT ?, ?  ");
+$stmt2->bind_param("ii", $offset, $total_products_per_page);
 $stmt2->execute();
-$products = $stmt2->get_result();
+$orders = $stmt2->get_result();
+
+
 ?>
-
-
-
 
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Products</h2>
+                <h2>Orders</h2>
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-lg-between">
+                        <div class="col-lg-12">
+                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                                <div class="row align-items-center justify-content-lg-between">
+                                    <div class="col-lg-12">
+                                        <form style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 20px;">
+                                            <div class="form-group">
+                                                <select class="form-control" id="orderTypeDropdown" onchange="window.location.href=this.value;" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                                                    <option value="orders.php" <?php if (basename($_SERVER['PHP_SELF']) == 'orders.php') echo 'selected'; ?>>All</option>
+                                                    <option value="r_orders.php" <?php if (basename($_SERVER['PHP_SELF']) == 'r_orders.php') echo 'selected'; ?>>Registered Customer</option>
+                                                    <option value="guest_orders.php" <?php if (basename($_SERVER['PHP_SELF']) == 'guest_orders.php') echo 'selected'; ?>>Guest</option>
+                                                </select>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <?php if (isset($_GET['order_Failed'])) { ?>
+                    <p class="text-center" style="color:red;"><?= $_GET['deleted_failure']; ?></p>
+                <?php } ?>
+
+                <?php if (isset($_GET['order_updated'])) { ?>
+                    <p class="text-center" style="color:green;"><?= $_GET['deleted_successful']; ?></p>
+                <?php } ?>
 
                 <?php if (isset($_GET['deleted_failure'])) { ?>
                     <p class="text-center" style="color:red;"><?= $_GET['deleted_failure']; ?></p>
@@ -70,53 +98,42 @@ $products = $stmt2->get_result();
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped text-center">
                         <thead>
                             <tr>
-                                <th scope="col">Product Id</th>
-                                <th scope="col">Product Image</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Product Price</th>
-                                <th scope="col">Product Offer</th>
-                                <th scope="col">Product Category</th>
-                                <th scope="col">Product Color</th>
-                                <th scope="col" colspan="2">Actions</th>
+                                <th scope="col">Order Id</th>
+                                <th scope="col">Order Status</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">Order Date</th>
+                                <th scope="col">User Phone</th>
+                                <th scope="col">User Address</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php foreach ($products as $product) : ?>
-                                <tr>
-                                    <td><?= $product['product_id']; ?></td>
-                                    <td>
-                                        <img src="<?= "../assets/imgs/" . $product['product_image']; ?>" alt="Product Image" style="width:70px;height:70px;">
-                                    </td>
-                                    <td><?= $product['product_name']; ?></td>
-                                    <td><?= "$" . $product['product_price']; ?></td>
-                                    <td><?= $product['product_special_offer'] . "%"; ?></td>
-                                    <td><?= $product['product_category']; ?></td>
-                                    <td><?= $product['product_color']; ?></td>
-                                    <td>
-                                        <!-- Edit Product Button -->
-                                        <a href="edit_product.php?product_id=<?= $product['product_id']; ?>" class="btn btn-primary">Edit</a>
-                                    </td>
 
-                                    <td>
-                                        <!-- Edit Product Button -->
-                                        <a href="edit_images.php?product_id=<?= $product['product_id']; ?>&product_name=<?= $product['product_name']; ?>" class="btn btn-warning">Edit Images</a>
-                                    </td>
-                                    <td>
-                                        <!-- Delete Product Button -->
-                                        <a href="delete_product.php?product_id=<?= $product['product_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                        <tbody>
+                            <?php foreach ($orders as $order) { ?>
+                                <tr>
+                                    <td><?= $order['order_id']; ?></td>
+                                    <td><?= $order['order_status']; ?></td>
+                                    <td><?= $order['user_name'] ?? 'Guest'; ?></td>
+                                    <td><?= $order['order_date']; ?></td>
+                                    <td><?= $order['phone_number']; ?></td>
+                                    <td><?= $order['shipping_address']; ?></td>
+                                    <td><a href="edit_orders.php?order_id=<?= $order['order_id']; ?>" class="btn btn-primary">Edit</a></td>
+                                    <td><a href="delete_order.php?order_id=<?= $order['order_id'] ?>" class="btn btn-danger" name="delete_product" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
+
+
+                            <?php } ?>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

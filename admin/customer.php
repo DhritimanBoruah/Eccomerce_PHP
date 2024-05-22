@@ -40,10 +40,13 @@ $next_page = $page_no + 1;
 $adjacent = "2";
 $total_no_pages = ceil($total_records / $total_products_per_page);
 
-//get all users
+
+// Prepare the statement to get all registered users (non-guest users)
 $stmt = $conn->prepare("SELECT * FROM users");
 $stmt->execute();
 $users = $stmt->get_result();
+
+
 
 ?>
 
@@ -54,6 +57,33 @@ $users = $stmt->get_result();
         <div class="row">
             <div class="col-md-12">
                 <h2>Customers</h2>
+
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-lg-between">
+                        <div class="col-lg-12">
+                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                                <div class="row align-items-center justify-content-lg-between">
+                                    <div class="col-lg-12">
+                                        <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 20px;">
+                                            <form>
+                                                <div class="form-group">
+                                                    <select class="form-control" id="orderTypeDropdown" onchange="window.location.href=this.value;">
+                                                        <option value="customer.php" <?php if (basename($_SERVER['PHP_SELF']) == 'customer.php') echo 'selected'; ?>>All</option>
+                                                        <option value="r_customers.php" <?php if (basename($_SERVER['PHP_SELF']) == 'r_customers.php') echo 'selected'; ?>>Registered Customer</option>
+                                                        <option value="guest_customers.php" <?php if (basename($_SERVER['PHP_SELF']) == 'guest_customers.php') echo 'selected'; ?>>Guest</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -72,14 +102,14 @@ $users = $stmt->get_result();
                             </tr>
                         </thead>
 
-                        <?php foreach ($users as $user) {?>
-                        <tr>
-                            <td><?=$user['user_id'];?></td>
-                            <td><?=$user['user_name'];?></td>
-                            <td><?=$user['user_email'];?></td>
-                        </tr>
+                        <?php foreach ($users as $user) { ?>
+                            <tr>
+                                <td><?= $user['user_id']; ?></td>
+                                <td><?= $user['user_name']; ?></td>
+                                <td><?= $user['user_email']; ?></td>
+                            </tr>
 
-                        <?php }?>
+                        <?php } ?>
                         <tbody>
 
                         </tbody>
@@ -93,24 +123,34 @@ $users = $stmt->get_result();
             <div class="col-md-12">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item <?php if ($page_no <= 1) {echo 'disabled';}?>">
-                            <a class="page-link"
-                                href="<?php if ($page_no <= 1) {echo '#';} else {echo '?page_no=' . ($page_no - 1);}?>"
-                                aria-label="Previous">
+                        <li class="page-item <?php if ($page_no <= 1) {
+                                                    echo 'disabled';
+                                                } ?>">
+                            <a class="page-link" href="<?php if ($page_no <= 1) {
+                                                            echo '#';
+                                                        } else {
+                                                            echo '?page_no=' . ($page_no - 1);
+                                                        } ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
 
-                        <?php for ($i = 1; $i <= $total_no_pages; $i++) {?>
-                        <li class="page-item <?php if ($page_no == $i) {echo 'active';}?>">
-                            <a class="page-link" href="?page_no=<?=$i;?>"><?=$i;?></a>
-                        </li>
-                        <?php }?>
+                        <?php for ($i = 1; $i <= $total_no_pages; $i++) { ?>
+                            <li class="page-item <?php if ($page_no == $i) {
+                                                        echo 'active';
+                                                    } ?>">
+                                <a class="page-link" href="?page_no=<?= $i; ?>"><?= $i; ?></a>
+                            </li>
+                        <?php } ?>
 
-                        <li class="page-item <?php if ($page_no >= $total_no_pages) {echo 'disabled';}?>">
-                            <a class="page-link"
-                                href="<?php if ($page_no >= $total_no_pages) {echo '#';} else {echo '?page_no=' . ($page_no + 1);}?>"
-                                aria-label="Next">
+                        <li class="page-item <?php if ($page_no >= $total_no_pages) {
+                                                    echo 'disabled';
+                                                } ?>">
+                            <a class="page-link" href="<?php if ($page_no >= $total_no_pages) {
+                                                            echo '#';
+                                                        } else {
+                                                            echo '?page_no=' . ($page_no + 1);
+                                                        } ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -120,4 +160,4 @@ $users = $stmt->get_result();
         </div>
     </div>
 
-    <?php include "./includes/footer.php";?>
+    <?php include "./includes/footer.php"; ?>

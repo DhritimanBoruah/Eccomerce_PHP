@@ -50,36 +50,38 @@ $totalCustomers = $customers->fetch_assoc()['total_customers'];
     <div class="container">
         <div class="row mt-3 justify-content-center">
             <div class="col-md-4">
-                <div class="card bg-primary text-white mb-4" style="height: 200px;">
-                    <div class="card-body">
+                <div class="card bg-primary text-white mb-4" style="transition: transform 0.2s, box-shadow 0.2s;">
+
+                    <div class="card-body" style="cursor: pointer;" onmouseover="this.style.transform = 'translateY(-5px)'; this.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.15)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = 'none';" onclick="this.style.transform = 'translateY(-3px)';">
                         <h2 class="card-title">Orders</h2>
-                        <p class="card-text" style="color: white;">Total number of orders:
-                            <span style="font-size: 40px;"><?=$totalOrders?></span>
-                        </p>
+                        <p class="card-text" style="color: white;">Total number of orders: <span style="font-size: 40px;"><?= $totalOrders ?></span></p>
                     </div>
+
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card bg-success text-white mb-4" style="height: 200px;">
-                    <div class="card-body">
+                <div class="card bg-success text-white mb-4" style="transition: transform 0.2s, box-shadow 0.2s;">
+
+                    <div class="card-body" style="cursor: pointer;" onmouseover="this.style.transform = 'translateY(-5px)'; this.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.15)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = 'none';" onclick="this.style.transform = 'translateY(-3px)';">
                         <h2 class="card-title">Customers</h2>
-                        <p class="card-text" style="color: white;">Total number of customers:
-                            <span style="font-size: 40px;"><?=$totalCustomers?></span>
-                        </p>
+                        <p class="card-text" style="color: white;">Total number of customers: <span style="font-size: 40px;"><?= $totalCustomers ?></span></p>
                     </div>
+
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card bg-warning text-dark mb-4" style="height: 200px;">
-                    <div class="card-body">
+                <div class="card bg-warning text-dark mb-4" style="transition: transform 0.2s, box-shadow 0.2s;">
+
+                    <div class="card-body" style="cursor: pointer;" onmouseover="this.style.transform = 'translateY(-5px)'; this.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.15)';" onmouseout="this.style.transform = 'translateY(0)'; this.style.boxShadow = 'none';" onclick="this.style.transform = 'translateY(-3px)';">
                         <h2 class="card-title">Products</h2>
-                        <p class="card-text" style="color: white;">Total number of products:
-                            <span style="font-size: 40px;"><?=$totalProducts?></span>
-                        </p>
+                        <p class="card-text" style="color: white;">Total number of products: <span style="font-size: 40px;"><?= $totalProducts ?></span></p>
                     </div>
+
                 </div>
             </div>
         </div>
+
+
         <div class="row ">
             <div class="col-md-8">
                 <canvas id="barGraph" width="400" height="150px"></canvas>
@@ -92,48 +94,48 @@ $totalCustomers = $customers->fetch_assoc()['total_customers'];
 
 
     <script>
-    // Sample data for bar graph (replace with actual data fetched from your database)
-    var months = ['January', 'February', 'March', 'April', 'May', 'June'];
-    var ordersData = [100, 120, 90, 110, 80, 100];
+        // Sample data for bar graph (replace with actual data fetched from your database)
+        var months = ['January', 'February', 'March', 'April', 'May', 'June'];
+        var ordersData = [100, 120, 90, 110, 80, 100];
 
-    var ctx = document.getElementById('barGraph').getContext('2d');
-    var barGraph = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: months,
-            datasets: [{
-                label: 'Orders',
-                data: ordersData,
-                backgroundColor: [
-                    'rgba(255, 99, 132)',
-                    'rgba(54, 162, 235)',
-                    'rgba(255, 206, 86)',
-                    'rgba(75, 192, 192)',
-                    'rgba(153, 102, 255)',
-                    'rgba(255, 159, 64)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        var ctx = document.getElementById('barGraph').getContext('2d');
+        var barGraph = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Orders',
+                    data: ordersData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 206, 86)',
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(255, 159, 64)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
     </script>
 
 
 
     <?php
-include "./includes/footer.php";?>
+    include "./includes/footer.php"; ?>

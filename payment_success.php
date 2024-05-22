@@ -10,8 +10,8 @@ include 'includes/header.php';
         <p>Thank you for your purchase! Your payment was successful.</p>
     </div>
     <div class="mx-auto container text-center mt-5">
-        <p>Your order ID is: <?= htmlspecialchars($_GET['order_id']); ?></p>
-        <p>Your payment ID is: <?= htmlspecialchars($_GET['payment_id']); ?></p>
+        <!-- <p>Your order ID is: <?= htmlspecialchars($_GET['order_id']); ?></p>
+        <p>Your payment ID is: <?= htmlspecialchars($_GET['payment_id']); ?></p> -->
         <a href="index.php" class="btn btn-primary mt-3">Continue Shopping</a>
     </div>
 </section>
