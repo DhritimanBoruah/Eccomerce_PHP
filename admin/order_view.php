@@ -25,12 +25,6 @@ if (isset($_GET['order_id'])) {
 
 ?>
 
-<style>
-    .item {
-        background-color: beige;
-    }
-</style>
-
 <!-- orders -->
 <section class="orders my-5 py-5" id="orders">
     <div class="container mt-2">
@@ -43,28 +37,31 @@ if (isset($_GET['order_id'])) {
                 <hr class="mx-auto">
                 <?php if (!empty($order_details)) { ?>
                     <div class="item">
-                        <div class="container">
-                            <div class="row">
-                                <?php $count = 0; ?>
-                                <?php foreach ($order_details as $row) { ?>
-                                    <div class="col-md-3 col-sm-6">
-                                        <div class="card mb-4">
-                                            <img src="../assets/imgs/<?= $row['product_image']; ?>" class="card-img-top" alt="item" />
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= $row['product_name']; ?></h5>
-                                                <p class="card-text">Price: <em><?= $row['product_price']; ?>/-</em></p>
-                                                <p class="card-text">Quantity: <em><?= $row['product_quantity']; ?>/-</em></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php $count++; ?>
-                                    <?php if ($count % 4 == 0) { ?>
-                                        <!-- Start a new row after every fourth product -->
-                            </div>
-                            <div class="row">
-                            <?php } ?>
-                        <?php } ?>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="thead-dark" style="background-color: black;">
+                                    <tr>
+                                        <th scope="col">Product Image</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($order_details as $row) { ?>
+                                        <tr>
+                                            <td>
+                                                <img src="../assets/imgs/<?= htmlspecialchars($row['product_image']); ?>" alt="item" width="100">
+                                            </td>
+                                            <td><?= $row['product_name']; ?></td>
+                                            <td>₹<?= $row['product_price']; ?>/-</td>
+                                            <td><?= $row['product_quantity']; ?></td>
+                                            <td>₹<?= $row['product_quantity'] * $row['product_price']; ?>/-</td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 <?php } ?>
@@ -73,7 +70,6 @@ if (isset($_GET['order_id'])) {
         </div>
     </div>
 </section>
-
 
 <?php
 include 'includes/footer.php';

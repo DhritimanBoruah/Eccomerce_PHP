@@ -1,7 +1,7 @@
 <?php
 include 'includes/header.php';
 include 'server/connection.php';
-// session_start();
+session_start();
 
 $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
@@ -25,7 +25,35 @@ if ($result->num_rows == 0) {
     </div>
     <div class="mx-auto container text-center">
         <?php if ($total != 0) { ?>
-            <p>Total Payment: $<?= $total ?></p>
+
+            <!-- <h4>Order Summary</h4> -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product Image</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($_SESSION['cart'] as $item) { ?>
+                            <tr>
+                                <td>
+                                    <img src="assets/imgs/<?= htmlspecialchars($item['product_image']); ?>" alt="item" width="100">
+                                </td>
+                                <td><?= htmlspecialchars($item['product_name']); ?></td>
+                                <td>₹<?= htmlspecialchars($item['product_price']); ?>/-</td>
+                                <td><?= htmlspecialchars($item['product_quantity']); ?></td>
+                                <td>₹<?= htmlspecialchars($item['product_quantity'] * $item['product_price']); ?>/-</td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            <p><strong>Total Payment: ₹<?= $total ?></strong></p>
             <form id="payment-form" action="store_payment.php" method="POST">
                 <input type="hidden" name="amount" value="<?= $total * 100 ?>">
                 <input type="hidden" name="order_id" value="<?= $order_id ?>">
