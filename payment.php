@@ -72,7 +72,7 @@ include 'includes/footer.php';
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
     var options = {
-        "key": "rzp_test_h2ndppkBYVhqvE", // Enter the Key ID generated from the Dashboard
+        "key": "",   
         "amount": document.querySelector('input[name="amount"]').value, // Amount is in currency subunits
         "currency": "INR",
         "name": "Ecommerce",
@@ -87,9 +87,9 @@ include 'includes/footer.php';
             form.submit();
         },
         "prefill": {
-            "name": "Dhritiman",
-            "email": "Dhritiman@example.com",
-            "contact": "9876543211"
+            "name": "",
+            "email": "",
+            "contact": ""
         },
         "notes": {
             "address": "Razorpay Corporate Office"

@@ -23,7 +23,7 @@ session_start();
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
         <div class="container-fluid">
-            <img class="logoo" src="assets/imgs/logoo.jpg" alt="" width="70" height="70" />
+            <img class="logoo" src="assets/imgs/logoo.jpg" alt="LOGO" width="70" height="70" />
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

@@ -2,7 +2,7 @@
 <footer class="mt-5 py-5 bg-dark text-white">
     <div class="row container-fluid mx-auto pt-5">
         <div class="footer-one col-lg-3 col-md-6 col-sm-12">
-            <img src="assets/imgs/logoo.jpg" alt="" width="100" style="border-radius: 50%;">
+            <img src="assets/imgs/logoo.jpg" alt="LOGO" width="100" style="border-radius: 50%;">
             <p class="pt-3">We Provide the best products for the most affordable prices</p>
         </div>
         <div class="footer-one col-lg-3 col-md-6 col-sm-12">
